@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v7
 
       - name: Configure (CMake)
-        run: cmake -S . -B build -A x64
+        run: cmake -S . -B build -A x64 -DMOORING_WARNINGS_AS_ERRORS=ON
 
       - name: Build (Release)
         run: cmake --build build --config Release --parallel
