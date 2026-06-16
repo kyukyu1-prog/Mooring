@@ -21,6 +21,15 @@ jobs:
       - name: Build (Release)
         run: cmake --build build --config Release --parallel
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: mooring-windows-msvc-x64
+          path: |
+            build/Release/mooring.lib
+            build/examples/Release/scan_self.exe
+          if-no-files-found: error
+
       # The runner image legitimately has hooks / instrumentation
       # (Defender, telemetry, etc.) so mooring's exit code here is
       # informational, not a CI pass/fail signal. We still want the
