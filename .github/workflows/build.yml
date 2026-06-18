@@ -8,26 +8,37 @@ on:
   workflow_dispatch:
 
 jobs:
-  windows-msvc:
-    name: Windows / MSVC / x64
+  windows:
+    name: Windows / ${{ matrix.toolchain }} / x64 / ${{ matrix.config }}
     runs-on: windows-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        toolchain: [msvc, clang-cl]
+        config: [Debug, Release]
+        include:
+          - toolchain: msvc
+            toolset_arg: ''
+          - toolchain: clang-cl
+            toolset_arg: '-T ClangCL'
 
     steps:
       - uses: actions/checkout@v7
 
       - name: Configure (CMake)
-        run: cmake -S . -B build -A x64 -DMOORING_WARNINGS_AS_ERRORS=ON
+        run: cmake -S . -B build -A x64 ${{ matrix.toolset_arg }} -DMOORING_WARNINGS_AS_ERRORS=ON
 
-      - name: Build (Release)
-        run: cmake --build build --config Release --parallel
+      - name: Build (${{ matrix.config }})
+        run: cmake --build build --config ${{ matrix.config }} --parallel
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: mooring-windows-msvc-x64
+          name: mooring-windows-${{ matrix.toolchain }}-${{ matrix.config }}-x64
           path: |
-            build/Release/mooring.lib
-            build/examples/Release/scan_self.exe
+            build/${{ matrix.config }}/mooring.lib
+            build/examples/${{ matrix.config }}/scan_self.exe
           if-no-files-found: error
 
       # The runner image legitimately has hooks / instrumentation
@@ -37,4 +48,4 @@ jobs:
       - name: Run scan_self against runner
         shell: pwsh
         continue-on-error: true
-        run: .\build\examples\Release\scan_self.exe
+        run: .\build\examples\${{ matrix.config }}\scan_self.exe
