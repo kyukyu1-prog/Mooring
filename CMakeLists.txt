@@ -31,6 +31,7 @@ endif()
 
 option(MOORING_BUILD_EXAMPLES     "Build mooring example programs" ON)
 option(MOORING_WARNINGS_AS_ERRORS "Treat warnings as errors"        OFF)
+option(MOORING_ENABLE_ASAN        "Build with AddressSanitizer"     OFF)
 
 # ---------------------------------------------------------------------------
 # Library
@@ -82,12 +83,37 @@ else()
     endif()
 endif()
 
+# AddressSanitizer — off by default. Apply PUBLIC so the example
+# picks up the same instrumentation automatically without needing
+# its own MOORING_ENABLE_ASAN plumbing.
+if(MOORING_ENABLE_ASAN)
+    if(MSVC)
+        # MSVC ASan requires non-incremental link and debug info
+        # for symbolized reports. Forgetting /INCREMENTAL:NO gives
+        # a confusing LNK error rather than an ASan banner.
+        target_compile_options(mooring PUBLIC /fsanitize=address /Zi)
+        target_link_options(mooring PUBLIC /INCREMENTAL:NO)
+    else()
+        target_compile_options(mooring PUBLIC -fsanitize=address -fno-omit-frame-pointer)
+        target_link_options(mooring PUBLIC -fsanitize=address)
+    endif()
+endif()
+
 # ---------------------------------------------------------------------------
 # Examples
 # ---------------------------------------------------------------------------
 
 if(MOORING_BUILD_EXAMPLES)
     add_subdirectory(examples)
+endif()
+
+# ---------------------------------------------------------------------------
+# Tests (scaffold only — no tests yet)
+# ---------------------------------------------------------------------------
+
+include(CTest)
+if(BUILD_TESTING)
+    add_subdirectory(tests)
 endif()
 
 # ---------------------------------------------------------------------------

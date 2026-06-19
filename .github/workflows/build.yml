@@ -32,6 +32,10 @@ jobs:
       - name: Build (${{ matrix.config }})
         run: cmake --build build --config ${{ matrix.config }} --parallel
 
+      - name: Run tests (ctest)
+        working-directory: build
+        run: ctest --output-on-failure -C ${{ matrix.config }}
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -49,3 +53,25 @@ jobs:
         shell: pwsh
         continue-on-error: true
         run: .\build\examples\${{ matrix.config }}\scan_self.exe
+
+  asan:
+    name: Windows / MSVC / x64 / Release / ASan
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Configure (CMake)
+        run: cmake -S . -B build-asan -A x64 -DMOORING_WARNINGS_AS_ERRORS=ON -DMOORING_ENABLE_ASAN=ON
+
+      - name: Build (Release, ASan)
+        run: cmake --build build-asan --config Release --parallel
+
+      # scan_self normally exits 1 on critical findings. What we care
+      # about here is ASan output — any "AddressSanitizer:" banner in
+      # the log is a real bug on the scan path. Don't fail CI on
+      # scan_self's exit code; the human triages logs.
+      - name: Run scan_self under ASan
+        shell: pwsh
+        continue-on-error: true
+        run: .\build-asan\examples\Release\scan_self.exe
