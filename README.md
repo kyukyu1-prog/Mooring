@@ -1,6 +1,7 @@
 # Mooring
 
 [![build](https://github.com/kyukyu1-prog/Mooring/actions/workflows/build.yml/badge.svg)](https://github.com/kyukyu1-prog/Mooring/actions/workflows/build.yml)
+[![CodeQL](https://github.com/kyukyu1-prog/Mooring/actions/workflows/codeql.yml/badge.svg)](https://github.com/kyukyu1-prog/Mooring/actions/workflows/codeql.yml)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![platform: Windows](https://img.shields.io/badge/platform-Windows-0078D6.svg)](#build)
 [![C++17](https://img.shields.io/badge/C%2B%2B-17-00599C.svg)](#build)

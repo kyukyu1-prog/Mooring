@@ -1,0 +1,39 @@
+name: codeql
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Mondays 06:00 UTC — catches CVE-shaped regressions from
+    # upstream query updates even when nothing in the repo changed.
+    - cron: '0 6 * * 1'
+
+jobs:
+  analyze:
+    name: CodeQL / C++
+    runs-on: windows-latest
+
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: cpp
+
+      # Autobuild drives the existing cmake -A x64 + cmake --build
+      # flow cleanly; no manual build step needed.
+      - name: Build (autobuild)
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Analyze
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: cpp
