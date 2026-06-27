@@ -1,5 +1,10 @@
 # Mooring
 
+[![build](https://github.com/kyukyu1-prog/Mooring/actions/workflows/build.yml/badge.svg)](https://github.com/kyukyu1-prog/Mooring/actions/workflows/build.yml)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![platform: Windows](https://img.shields.io/badge/platform-Windows-0078D6.svg)](#build)
+[![C++17](https://img.shields.io/badge/C%2B%2B-17-00599C.svg)](#build)
+
 Process integrity and anti-injection detection toolkit for Windows
 applications. Mooring is a small library of detectors that an
 application can call against its own process to surface signs of code
