@@ -1,0 +1,61 @@
+name: Bug report
+description: Something in mooring isn't behaving as documented.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report. The more concrete the
+        reproducer, the faster the fix.
+
+  - type: dropdown
+    id: detector
+    attributes:
+      label: Detector involved
+      options:
+        - inline_hook
+        - iat_hook
+        - thread_origin
+        - hidden_module
+        - hardware_breakpoint
+        - core / build / docs
+        - other
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What did mooring do, and what did you expect instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproducer
+      description: Code, commands, or steps to reproduce. A standalone
+        snippet that fails when pasted into a fresh project is gold.
+      render: text
+    validations:
+      required: true
+
+  - type: input
+    id: windows
+    attributes:
+      label: Windows build
+      placeholder: "e.g. 11 23H2, build 22631"
+
+  - type: input
+    id: compiler
+    attributes:
+      label: Compiler
+      placeholder: "e.g. MSVC 19.39, clang-cl 17"
+
+  - type: input
+    id: mooring_version
+    attributes:
+      label: Mooring version / commit
+      placeholder: "e.g. v0.1.0 or 4df4389"

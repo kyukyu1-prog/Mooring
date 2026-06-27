@@ -1,0 +1,52 @@
+name: False positive
+description: Mooring flagged something that isn't actually malicious.
+title: "[fp] "
+labels: ["false-positive"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        These reports are valuable — false-positive notes go into
+        `docs/detector-reference.md` so future users avoid the same
+        surprise. The more specific the triggering software, the
+        better.
+
+  - type: dropdown
+    id: detector
+    attributes:
+      label: Detector that fired
+      options:
+        - inline_hook
+        - iat_hook
+        - thread_origin
+        - hidden_module
+        - hardware_breakpoint
+    validations:
+      required: true
+
+  - type: textarea
+    id: subject
+    attributes:
+      label: Finding subject + description
+      description: Paste the relevant fields from the finding (or the
+        whole `scan_self` block).
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: why_legit
+    attributes:
+      label: Why this is legitimate
+      description: What was actually doing the thing mooring flagged?
+        E.g. "Intel VTune was instrumenting this thread", or
+        "AcLayers.dll patches kernel32!CreateFileW at load time
+        under AppCompat shim X".
+    validations:
+      required: true
+
+  - type: input
+    id: software
+    attributes:
+      label: Triggering software (if known)
+      placeholder: "Profiler, debugger, anti-virus, AppCompat shim, ..."

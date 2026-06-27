@@ -8,6 +8,14 @@ project does not yet promise SemVer.
 
 ## [Unreleased]
 
+### Added
+- GitHub Actions CI: Windows MSVC build on every push and pull request.
+- Dependabot configuration for monthly GitHub Actions updates.
+- Issue templates: bug report, false-positive report, detector proposal.
+- Pull request template with detector-author checklist.
+- `CODEOWNERS`, `SECURITY.md`, `CODE_OF_CONDUCT.md` (Contributor Covenant 2.1).
+- README status badges (build, license, platform, C++ standard).
+
 ## [0.1.0] - 2026-06
 
 Initial public release.

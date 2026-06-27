@@ -1,0 +1,51 @@
+name: Detector proposal
+description: Idea for a new detector or detection technique.
+title: "[detector] "
+labels: ["detector-proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for a *new* detector. For tuning an existing one,
+        use the bug or false-positive templates instead.
+
+  - type: input
+    id: name
+    attributes:
+      label: Proposed detector name
+      placeholder: "e.g. eat_hook, syscall_stub, veh_abuse"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What it catches
+      description: The specific anomaly or attack technique this would
+        detect.
+    validations:
+      required: true
+
+  - type: textarea
+    id: technique
+    attributes:
+      label: Technique
+      description: How would the detector actually identify the
+        anomaly? Reference Win32 APIs, undocumented structures,
+        papers, or existing implementations.
+    validations:
+      required: true
+
+  - type: textarea
+    id: fp
+    attributes:
+      label: Known false-positive surface
+      description: What legitimate situations would produce the same
+        signal? This shapes the severity grading.
+
+  - type: textarea
+    id: refs
+    attributes:
+      label: References
+      description: Links to relevant docs, papers, blog posts, or
+        existing implementations.
