@@ -1,0 +1,12 @@
+version: 2
+updates:
+  # Mooring has no runtime third-party dependencies, but we do
+  # pin GitHub Actions versions in workflows. Keep them current.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "ci"
+      include: scope
